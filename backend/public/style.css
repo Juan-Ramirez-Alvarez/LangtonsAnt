@@ -1,0 +1,32 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+button {
+    border-style: hidden;
+    height: 100px;
+    width: 100px;
+}
+
+#board {
+    border-style: solid;
+    border-width: 3px;
+}
+
+#black {
+    background-color: black;
+}
+
+#white {
+    background-color: white;
+}
