@@ -3,7 +3,7 @@
     var React = require('react');
     var ReactDOM = require('react-dom');
   
-    var Hello = require("./components/hello");
-    ReactDOM.render(<Hello />, document.getElementById('app'));
+    var Board = require("./components/board");
+    ReactDOM.render(<Board />, document.getElementById('board'));
   
   })();

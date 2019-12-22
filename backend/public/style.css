@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+button {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    height: 100px;
+    width: 100px;
+}
+
+#board {
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+#black {
+    background-color: black;
+}
+
+#white {
+    background-color: white;
+}
