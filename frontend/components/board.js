@@ -5,7 +5,7 @@ const boardWidth = 10;
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick} id={props.value}>
+    <button onClick={props.onClick} className={props.value}>
     </button>
   );
 }
