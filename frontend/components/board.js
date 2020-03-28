@@ -5,8 +5,17 @@ const boardWidth = 10;
 
 function Square(props) {
   return (
-    <button onClick={props.onClick} className={props.value}>
-    </button>
+    <div className={props.value}>
+    </div>
+  );
+}
+
+function Ant()
+{
+  return (
+    <div className="white">
+      <img src="download.png" id="pic"/>
+    </div>
   );
 }
 
@@ -17,24 +26,17 @@ module.exports = React.createClass({
     }
   },
 
-  handleClick(i) {
-    const squares = this.state.squares.slice()
-    if(squares[i] == "white") {
-      squares[i] = "black";
-    } else {
-      squares[i] = "white";
-    }
-    this.setState({
-      squares: squares,
-    })
-  },
-
   renderSquare: function(i) {
     return (
       <Square
         value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
       />
+    );
+  },
+
+  renderAnt: function() {
+    return (
+      <Ant/>
     );
   },
 
@@ -45,11 +47,14 @@ module.exports = React.createClass({
     for(var i=0; i<boardHeight; i++) {
       var boardRow = [];
       for(var j=0; j<boardWidth; j++) {
-        boardRow.push(this.renderSquare(squareNum));
+        if (i==0 && j==0)
+          boardRow.push(this.renderAnt());
+        else
+          boardRow.push(this.renderSquare(squareNum));
         squareNum++;
       }
       board.push(<div className="board-row">{boardRow}</div>);
-    }    
+    }
 
     return (
       <div>
