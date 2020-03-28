@@ -5,7 +5,7 @@ const boardWidth = 10;
 
 function Square(props) {
   return (
-    <button className="square" id={props.value}>
+    <button onClick={props.onClick} className={props.value}>
     </button>
   );
 }
@@ -17,10 +17,23 @@ module.exports = React.createClass({
     }
   },
 
+  handleClick(i) {
+    const squares = this.state.squares.slice()
+    if(squares[i] == "white") {
+      squares[i] = "black";
+    } else {
+      squares[i] = "white";
+    }
+    this.setState({
+      squares: squares,
+    })
+  },
+
   renderSquare: function(i) {
     return (
       <Square
         value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
       />
     );
   },
