@@ -3,7 +3,7 @@ var React = require('react')
 const boardHeight = 10;
 const boardWidth = 10;
 
-const Direction = {"Up":1, "Down":2, "Left":3, "Right":4}
+const Direction = {"Up":"./download_up.png", "Down":"./download_down.png", "Left":"./download_left.png", "Right":"./download_right.png"}
 Object.freeze(Direction)
 
 function Square(props) {
@@ -17,13 +17,38 @@ function Square(props) {
 Ant = React.createClass ({
   getInitialState: function() {
     return {
-      direction: Direction.Up,
+      direction: Direction.Right,
     }
   },
 
+  outOfBounds: function(props)
+  {
+  },
+
   nextMove: function(props) {
-    if (this.isOnBlack(props))
+    if (!this.isOnBlack(props))
     {
+        // out of bounds?
+    
+        // rotate
+        switch (this.state.direction) {
+          case Direction.Up: 
+            this.setState({direction: Direction.Left})
+            break
+          case Direction.Left:
+            this.setState({direction: Direction.Down})
+            break
+          case Direction.Down:
+            this.setState({direction: Direction.Right})
+            break
+          case Direction.Right:
+            this.setState({direction: Direction.Up})
+            break
+          default:
+            break;
+        }
+    }
+    else {
 
     }
   },
@@ -41,7 +66,7 @@ Ant = React.createClass ({
   render: function() {
     return (
       <div className="white">
-        <input type="image" src="./download.png" id="pic" onClick={() => this.nextMove(this.props)} />
+        <input type="image" src={this.state.direction} id="pic" onClick={() => this.nextMove(this.props)} />
       </div>
     );
   }
