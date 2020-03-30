@@ -12,24 +12,27 @@ body {
     vertical-align: middle;
 }
 
-#board {
-    border-style: solid;
-    border-width: 3px;
-    border-color: black;
-}
-
-button {
+div.white {
     border-style: solid;
     border-width: 1px;
     border-color: black;
     height: 100px;
     width: 100px;
-}
-
-button.black {
-    background-color: black;
-}
-
-button.white {
     background-color: white;
+    float: left;
+}
+
+div.black {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    height: 100px;
+    width: 100px;
+    background-color: black;
+    float: left;
+}
+
+#pic {
+    height: 90px;
+    width: 90px;
 }
