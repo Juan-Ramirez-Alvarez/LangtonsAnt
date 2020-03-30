@@ -1,32 +1,22 @@
 var React = require('react')
-
 const boardHeight = 10;
 const boardWidth = 10;
-
 const Direction = { "Up": "./download_up.png", "Down": "./download_down.png", "Left": "./download_left.png", "Right": "./download_right.png" }
 Object.freeze(Direction)
-
 function Square(props) {
   return (
     <div className={props.value}>
     </div>
   );
 }
-
 Ant = React.createClass({
   getInitialState: function () {
-    return {
-      direction: Direction.Right,
-    }
+    return {}
   },
-
-  outOfBounds: function (props) {
-  },
-
   rotate: function (props) {
     var newDirection
     if (this.isOnBlack(props)) {
-      switch (this.state.direction) {
+      switch (props.direction) {
         case Direction.Up:
           newDirection = Direction.Left
           break
@@ -44,7 +34,7 @@ Ant = React.createClass({
       }
     }
     else {
-      switch (this.state.direction) {
+      switch (props.direction) {
         case Direction.Up:
           newDirection = Direction.Right
           break
@@ -61,86 +51,70 @@ Ant = React.createClass({
           break
       }
     }
-
     return newDirection
   },
-
   nextMove: function (props) {
     var newDirection = this.rotate(props)
-    alert(newDirection)
-    this.setState({direction: newDirection}, this.moveHelper)
+    this.moveHelper(newDirection)
   },
-
-  moveHelper: function() {
+  moveHelper: function(newDirection) {
     var props = this.props
-    alert(this.state.direction)
-    switch (this.state.direction) {
+    switch (newDirection) {
       case Direction.Left:
         var newX = props.X - 1
         if (newX < 0) {
-          this.setState({direction: Direction.Right})
-          props.setNewBoardState(props.X, props.Y)
+          props.setNewBoardState(props.X, props.Y, Direction.Right)
         }
         else {
-          props.setNewBoardState(newX, props.Y)
+          props.setNewBoardState(newX, props.Y, newDirection)
         }
         break
       case Direction.Right:
         var newX = props.X + 1
         if (newX === boardWidth) {
-          this.setState({direction: Direction.Left})
-          props.setNewBoardState(props.X, props.Y)
+          props.setNewBoardState(props.X, props.Y, Direction.Left)
         }
         else {
-          props.setNewBoardState(newX, props.Y)
+          props.setNewBoardState(newX, props.Y, newDirection)
         }
         break
       case Direction.Up:
         var newY = props.Y - 1
         if (newY < 0) {
-          this.setState({direction: Direction.Down})
-          props.setNewBoardState(props.X, props.Y)
+          props.setNewBoardState(props.X, props.Y, Direction.Down)
         }
         else {
-          props.setNewBoardState(props.X, newY)
+          props.setNewBoardState(props.X, newY, newDirection)
         }
         break
       case Direction.Down:
-        alert("here")
         var newY = props.Y + 1
         if (newY === boardHeight) {
-          this.setState({direction: Direction.Up})
-          props.setNewBoardState(props.X, props.Y)
+          props.setNewBoardState(props.X, props.Y, Direction.Up)
         }
         else {
-          props.setNewBoardState(props.X, newY)
+          props.setNewBoardState(props.X, newY, newDirection)
         }
         break
       default:
         break
     }
-
   },
-
-  isOnBlack: function (props) {
-    var squares = props.squares
-    var X = props.X
-    var Y = props.Y
-
+  isOnBlack: function () {
+    var squares = this.props.squares
+    var X = this.props.X
+    var Y = this.props.Y
     var currentColor = squares[X][Y]
-
     return currentColor === "black"
   },
-
   render: function () {
     return (
       <div className="white">
-        <input type="image" src={this.state.direction} id="pic" onClick={() => this.nextMove(this.props)} />
+        <input type="image" src={this.props.direction} id="pic" onClick={() => this.nextMove(this.props)} />
       </div>
     );
   }
 });
-
 module.exports = React.createClass({
   getInitialState: function () {
     var squares = new Array(boardWidth)
@@ -148,14 +122,13 @@ module.exports = React.createClass({
       var inner = Array(boardHeight).fill("white")
       squares[i] = inner
     }
-
     return {
       squares: squares,
-      X: 0,
-      Y: 0,
+      direction: Direction.Right,
+      X: 5,
+      Y: 5,
     }
   },
-
   renderSquare: function (x, y) {
     return (
       <Square
@@ -163,19 +136,18 @@ module.exports = React.createClass({
       />
     );
   },
-
   renderAnt: function () {
     return (
       <Ant
         X={this.state.X}
         Y={this.state.Y}
+        direction={this.state.direction}
         setNewBoardState={this.setNewBoardState}
         squares={this.state.squares.slice()}
       />
     );
   },
-
-  setNewBoardState: function (x, y) {
+  setNewBoardState: function (x, y, direction) {
     const squares = this.state.squares.slice()
     var X = this.state.X
     var Y = this.state.Y
@@ -187,14 +159,13 @@ module.exports = React.createClass({
     }
     this.setState({
       squares: squares,
+      direction: direction,
       X: x,
       Y: y,
     })
   },
-
   render: function () {
     var board = [];
-
     // height will tell us # of rows
     // width will tell us # of cols
     for (var Y = 0; Y < boardHeight; Y++) {
@@ -207,7 +178,6 @@ module.exports = React.createClass({
       }
       board.push(<div className="board-row">{boardRow}</div>);
     }
-
     return (
       <div>
         {board}
